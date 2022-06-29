@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const generateToken = require('../utils/generateToken')
 
 //async handler will handle all the errors thrown at us 
 const registerUser = asyncHandler (async (req, res) => {
@@ -27,7 +28,8 @@ const registerUser = asyncHandler (async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            isAdmin: user.isAdmin
+            isAdmin: user.isAdmin,
+            token: generateToken(user._id)
         })
     } else {
         res.status(400)
@@ -49,6 +51,7 @@ const authUser = asyncHandler (async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
+            token: generateToken(),
         })
     } else {
         res.status(400)
