@@ -5,6 +5,7 @@ const cors = require('cors');
 const userRoute = require('./routes/userRoute');
 const {notFound, errorHandler} = require('./middlewares/errorMiddleware');
 
+
 const PORT = process.env.PORT
 
 const app = express()
@@ -15,9 +16,6 @@ app.use(express.json())
 
 app.use(logger('dev'));
 
-app.get('/', (req, res)=>{
-    res.send('Hello world');
-  });
 
 app.use('/api/users', userRoute);
 
