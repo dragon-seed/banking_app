@@ -3,7 +3,7 @@ import {useState } from 'react';
 import { Form, Button, Row, Col } from "react-bootstrap";
 // import {LinkContainer} from 'react-router-bootstrap'
 import Link from 'react-router-dom'
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const Login = () => {
 
@@ -25,18 +25,36 @@ const Login = () => {
             setLoading(true)
 
             const { data } = await axios.post('/api/users/login', {
-                email, password
+                email: email, password: password
             }, config)
 
             console.log(data)
 
             localStorage.setItem('userInfo', JSON.stringify(data));
 
-            setLoading(false)
+        setLoading(false)
         } catch (error) {
             setError(error.response.data.message);
         }
     };
+
+    const sayHello = async() => {
+        const response = await fetch('/api/hello')
+        const data = await response.json()
+        console.log(data)
+    }
+
+    const trackUser = async() => {
+        const response = await fetch('/api/users/track')
+        const data = await response.json()
+        console.log(data)
+    }
+
+    // const sayHello = () => {
+    //     fetch('/api/hello')
+    //     .then(res => res.json())
+    //     .then(data => console.log(data))
+    // }
     
   return (
     
@@ -58,7 +76,8 @@ const Login = () => {
         <Button variant="primary" type="submit">
           Submit
         </Button>
-      </Form>  
+      </Form> 
+      <button onClick={trackUser} text="hello">hello</button> 
       </div>
   </MainScreen>
   
