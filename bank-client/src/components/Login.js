@@ -1,18 +1,51 @@
 import MainScreen from "./MainScreen";
+import {useState } from 'react';
 import { Form, Button, Row, Col } from "react-bootstrap";
 // import {LinkContainer} from 'react-router-bootstrap'
 import Link from 'react-router-dom'
+import axios from "axios";
 
 const Login = () => {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const submitHandler= async (e) => {
+        e.preventDefault();
+        console.log(email, password);
+
+        try{
+            const config = {
+                headers: {
+                    'Content-type': "application/json"
+                }
+            }
+            setLoading(true)
+
+            const { data } = await axios.post('/api/users/login', {
+                email, password
+            }, config)
+
+            console.log(data)
+
+            localStorage.setItem('userInfo', JSON.stringify(data));
+
+            setLoading(false)
+        } catch (error) {
+            setError(error.response.data.message);
+        }
+    };
     
   return (
     
     <MainScreen title="Login">
         <div className='loginContainer'>
-      <Form>
+      <Form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
+          <Form.Control type="email" value={email} placeholder="Enter email" onChange={(e) => setEmail(e.target.value)}/>
           <Form.Text className="text-muted">
             If you haven't signed up yet, please register here.
           </Form.Text>
@@ -20,12 +53,12 @@ const Login = () => {
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Control type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         </Form.Group>
         <Button variant="primary" type="submit">
           Submit
         </Button>
-      </Form>
+      </Form>  
       </div>
   </MainScreen>
   
