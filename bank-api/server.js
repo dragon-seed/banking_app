@@ -16,6 +16,10 @@ app.use(express.json())
 
 app.use(logger('dev'));
 
+app.get("/", (req, res) => {
+  res.send('API is working!');
+})
+
 
 app.use('/api/users', userRoute);
 
