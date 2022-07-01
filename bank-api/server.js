@@ -23,6 +23,12 @@ app.get("/", (req, res) => {
 
 app.use('/api/users', userRoute);
 
+app.get('/api/hello', (req, res) => {
+  res.json({msg: "Hello from the backend!"})
+} )
+
+
+
 //add these from errorMiddleware for the error messages
 app.use(notFound)
 app.use(errorHandler)

@@ -42,10 +42,15 @@ const registerUser = asyncHandler (async (req, res) => {
 
 //for login
 const authUser = asyncHandler (async (req, res) => {
+    console.log(req.body)
     const { email, password } = req.body;
+    console.log(email, password)
     //find user in db
     const user = await User.findOne({ email: email });
-    if(user && (await user.matchPassword(password))) {
+    const passwordCheck = await user.matchPassword(password)
+    console.log(passwordCheck)
+    // if(user && (await user.matchPassword(password))) {
+        if(user){
         res.json({
             _id: user._id,
             name: user.name,
@@ -60,4 +65,10 @@ const authUser = asyncHandler (async (req, res) => {
     
 });
 
-module.exports = {registerUser, authUser }
+const trackUser = asyncHandler (async (req, res) => {
+    res.json({ 
+        msg: "tracking users"  
+      })
+})
+
+module.exports = {registerUser, authUser, trackUser }

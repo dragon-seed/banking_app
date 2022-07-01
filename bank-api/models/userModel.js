@@ -23,6 +23,13 @@ const userSchema = mongoose.Schema(
             type: Boolean,
             required: true,
             default: false,
+        },
+
+        balance: {
+            amount: Number,
+            // required: true,
+            default: 0,
+
         }
     },
     {
@@ -46,6 +53,7 @@ userSchema.pre('save', async function (next) {
 //Decrypting the password. Create a method call matchPassword. Bcrypt compares the password from our DB and the entered password. 
 userSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
+   
 }
 
 const User = mongoose.model('User', userSchema);
