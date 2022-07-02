@@ -35,6 +35,7 @@ const Login = () => {
       console.log(data);
 
       localStorage.setItem("userInfo", JSON.stringify(data));
+      console.log(localStorage.getItem('userInfo'))
 
       setLoading(false);
     } catch (error) {
