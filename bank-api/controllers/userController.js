@@ -71,4 +71,25 @@ const trackUser = asyncHandler (async (req, res) => {
       })
 })
 
-module.exports = {registerUser, authUser, trackUser }
+const depositMoney = asyncHandler (async ( req, res) => {
+    const {email, amount} = req.body
+    console.log(email, amount)
+    const user = await User.findOne({ email: email });
+    console.log(user)
+    if (user){
+        //check to make amount work with floats and decimals
+        user.balance += parseInt(amount)
+        user.save()
+        console.log(user.balance)
+        res.json({
+            _id: user._id,
+            name: user.name,
+            balance: user.balance,
+        })
+    } else {
+        res.status(400)
+        throw new Error('Requested user cannot access funds')
+    }
+})
+
+module.exports = {registerUser, authUser, trackUser, depositMoney }
