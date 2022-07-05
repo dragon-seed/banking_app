@@ -12,7 +12,7 @@ const Withdraw = () => {
     useEffect( () => {
 
         getBalance()
-        
+
     }, [])
 
     const withdrawMoney = async () => {
@@ -51,9 +51,6 @@ const Withdraw = () => {
           </Form.Group>
           <Button variant="primary" type="submit" onClick={withdrawMoney}>
             Withdraw
-          </Button>
-          <Button variant="primary" onClick={getBalance}>
-            Get Balance
           </Button>
         </Form>
         <h3>Your balance is ${userBalance.toFixed(2)}</h3>

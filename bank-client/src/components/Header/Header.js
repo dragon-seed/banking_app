@@ -12,18 +12,18 @@ const Header = () => {
     return (
         <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">Banking App</Navbar.Brand>
+        <Navbar.Brand href="/#/">Banking App</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {/* <Nav.Link href="#home">Home</Nav.Link> */}
-            <Nav.Link href="#link">My Account</Nav.Link>
+            <Nav.Link href="/#/account">My Account</Nav.Link>
             <NavDropdown title="Transactions" id="basic-nav-dropdown">
               <NavDropdown.Item href="/#/deposit">Deposit</NavDropdown.Item>
               <NavDropdown.Item href="/#/withdraw">
                 Withdraw
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Transfers</NavDropdown.Item>
+              {/* <NavDropdown.Item href="#action/3.3">Transfers</NavDropdown.Item> */}
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={() => {
                    localStorage.removeItem('userInfo');

@@ -9,6 +9,12 @@ const Deposit = () => {
     const [userBalance, setUserBalance] = useState(0)
     // useEffect(() => {console.log(depositAmount)}, [depositAmount])
 
+    useEffect( () => {
+
+        getBalance()
+
+    }, [])
+
     const depositMoney = async () => {
         const email = getUser()['email']
         console.log(email)
@@ -21,6 +27,14 @@ const Deposit = () => {
         const userData = localStorage.getItem('userInfo')
         const parseData = JSON.parse(userData)
         return parseData
+    }
+
+    const getBalance = async () => {
+        const email = getUser()['email']
+        const data = await axios('/api/users/currentbalance', {params: {email: email}})
+        console.log(data)
+        //Set user balance with data
+        setUserBalance(data.data['balance'])
     }
 
   return (
@@ -38,11 +52,11 @@ const Deposit = () => {
           <Button variant="primary" type="submit" onClick={depositMoney}>
             Deposit
           </Button>
-          <Button variant="primary" onClick={getUser}>
+          {/* <Button variant="primary" onClick={getUser}>
             Check User
-          </Button>
+          </Button> */}
         </Form>
-        <h3>Your balance is ${userBalance}</h3>
+        <h3>Your balance is ${userBalance.toFixed(2)}</h3>
       </div>
     </MainScreen>
   );
