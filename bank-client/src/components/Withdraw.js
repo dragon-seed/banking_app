@@ -1,7 +1,42 @@
 import MainScreen from "./MainScreen";
-import { Form } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
+import { useState, useEffect } from 'react'
+import axios from "axios";
 
 const Withdraw = () => {
+
+    const [withdrawAmount, setWithdrawAmount] = useState(0)
+    const [userBalance, setUserBalance] = useState(0)
+    // useEffect(() => {console.log(depositAmount)}, [depositAmount])
+
+    useEffect( () => {
+
+        getBalance()
+        
+    }, [])
+
+    const withdrawMoney = async () => {
+        const email = getUser()['email']
+        console.log(email)
+        const data = await axios.post('/api/users/withdraw', {email: email, amount: withdrawAmount})
+        console.log(data)
+        setUserBalance(data.data['balance'])
+    }
+
+    const getUser = () => {
+        const userData = localStorage.getItem('userInfo')
+        const parseData = JSON.parse(userData)
+        return parseData
+    }
+
+    const getBalance = async () => {
+        const email = getUser()['email']
+        const data = await axios('/api/users/currentbalance', {params: {email: email}})
+        console.log(data)
+        //Set user balance with data
+        setUserBalance(data.data['balance'])
+    }
+
   return (
     <MainScreen title="Make a Withdrawal">
       <div>
@@ -11,10 +46,17 @@ const Withdraw = () => {
             <Form.Control
               type="amount"
               placeholder="$0.00"
+              onChange ={(e) => setWithdrawAmount(e.target.value) }
             />
           </Form.Group>
+          <Button variant="primary" type="submit" onClick={withdrawMoney}>
+            Withdraw
+          </Button>
+          <Button variant="primary" onClick={getBalance}>
+            Get Balance
+          </Button>
         </Form>
-        <h3>Your balance is</h3>
+        <h3>Your balance is ${userBalance.toFixed(2)}</h3>
       </div>
     </MainScreen>
   );
