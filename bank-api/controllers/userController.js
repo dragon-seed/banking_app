@@ -65,11 +65,14 @@ const authUser = asyncHandler (async (req, res) => {
     
 });
 
+
+//throwaway code 
 const trackUser = asyncHandler (async (req, res) => {
     res.json({ 
         msg: "tracking users"  
       })
 })
+///
 
 const depositMoney = asyncHandler (async ( req, res) => {
     const {email, amount} = req.body
@@ -78,7 +81,7 @@ const depositMoney = asyncHandler (async ( req, res) => {
     console.log(user)
     if (user){
         //check to make amount work with floats and decimals
-        user.balance += parseInt(amount)
+        user.balance += parseFloat(amount)
         user.save()
         console.log(user.balance)
         res.json({
@@ -92,4 +95,42 @@ const depositMoney = asyncHandler (async ( req, res) => {
     }
 })
 
-module.exports = {registerUser, authUser, trackUser, depositMoney }
+const withdrawMoney = asyncHandler (async ( req, res) => {
+    const {email, amount} = req.body
+    console.log(email, amount)
+    const user = await User.findOne({ email: email });
+    console.log(user)
+    if (user){
+        //check to make amount work with floats and decimals
+        user.balance -= parseFloat(amount)
+        user.save()
+        console.log(user.balance)
+        // const readableBalance = formatFloatBalance(user.balance)
+        res.json({
+            _id: user._id,
+            name: user.name,
+            balance: user.balance,
+        })
+    } else {
+        res.status(400)
+        throw new Error('Requested user cannot access funds')
+    }
+})
+const currentBalance = asyncHandler (async (req, res) => {
+    console.log(req.query.email)
+    const email = req.query.email
+    console.log(email)
+    const user = await User.findOne({ email: email });
+    if (user) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            balance: user.balance,
+        })
+    } else {
+        res.status(400)
+        throw new Error('User could not be located')
+    }
+})
+
+module.exports = {registerUser, authUser, trackUser, depositMoney, withdrawMoney, currentBalance }
