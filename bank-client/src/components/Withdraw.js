@@ -12,7 +12,7 @@ const Withdraw = () => {
     useEffect( () => {
 
         getBalance()
-
+      
     }, [])
 
     const withdrawMoney = async () => {

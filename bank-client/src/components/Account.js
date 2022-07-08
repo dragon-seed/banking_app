@@ -9,7 +9,7 @@ const Account = () => {
     useEffect( () => {
 
         getBalance()
-
+        
     }, [])
 
     const getUser = () => {

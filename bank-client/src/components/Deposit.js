@@ -11,16 +11,21 @@ const Deposit = () => {
 
     useEffect( () => {
 
-        getBalance()
-
+        const user = getUser();
+        setUserBalance(user.balance);
+      console.log('this is called')
     }, [])
 
     const depositMoney = async () => {
-        const email = getUser()['email']
-        console.log(email)
-        const data = await axios.post('/api/users/deposit', {email: email, amount: depositAmount})
-        console.log(data)
-        setUserBalance(data.data['balance'])
+        const user = getUser()
+        console.log(user)
+        const data = await axios.post('/api/users/deposit', {email: user.email, amount: depositAmount})
+        console.log(data.data)
+        const updatedUser = user
+        updatedUser.balance = data.data.balance
+        localStorage.setItem("userInfo", JSON.stringify(updatedUser));
+        console.log('test console', updatedUser)
+        setUserBalance(data.data.balance)
     }
 
     const getUser = () => {
@@ -30,11 +35,18 @@ const Deposit = () => {
     }
 
     const getBalance = async () => {
-        const email = getUser()['email']
-        const data = await axios('/api/users/currentbalance', {params: {email: email}})
-        console.log(data)
+        const user = getUser()
+        try {
+          const data = await axios.post('/api/users/currentbalance', {email: user.email})
+          console.log('new data', data)
+        console.log('this is user', user)
         //Set user balance with data
-        setUserBalance(data.data['balance'])
+        setUserBalance(user.balance)
+        } catch (error) {
+          console.log(error)
+        }
+        
+        
     }
 
   return (
