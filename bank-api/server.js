@@ -2,13 +2,20 @@ require('dotenv').config();
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const path = require('path');
 const userRoute = require('./routes/userRoute');
 const {notFound, errorHandler} = require('./middlewares/errorMiddleware');
 
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 
 const app = express()
+
+//creates a path and imports in client build. 
+app.use(express.static(path.resolve(__dirname, './bank-client/build')))
+app.get('*', function(request, response){
+  response.sendFile(path.resolve(__dirname, './bank-client/build', 'index.html'))
+})
 
 app.use(cors())
 
