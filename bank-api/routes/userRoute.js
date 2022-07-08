@@ -11,7 +11,7 @@ router.route('/deposit').post(depositMoney)
 
 router.route('/withdraw').post(withdrawMoney)
 
-router.route('/currentbalance').get(currentBalance)
+router.route('/currentbalance').post(currentBalance)
 
 
 //throwaway code 

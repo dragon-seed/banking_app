@@ -56,6 +56,7 @@ const authUser = asyncHandler (async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
+            balance: user.balance,
             token: generateToken(),
         })
     } else {
@@ -117,8 +118,8 @@ const withdrawMoney = asyncHandler (async ( req, res) => {
     }
 })
 const currentBalance = asyncHandler (async (req, res) => {
-    console.log(req.query.email)
-    const email = req.query.email
+    console.log(req.body.email)
+    const email = req.body.email
     console.log(email)
     const user = await User.findOne({ email: email });
     if (user) {
