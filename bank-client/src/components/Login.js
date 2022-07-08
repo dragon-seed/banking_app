@@ -91,9 +91,9 @@ const Login = () => {
             Submit
           </Button>
         </Form>
-        <button onClick={trackUser} text="hello">
+        {/* <button onClick={trackUser} text="hello">
           hello
-        </button>
+        </button> */}
       </div>
     </MainScreen>
   );

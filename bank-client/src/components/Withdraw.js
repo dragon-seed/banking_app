@@ -25,14 +25,16 @@ const Withdraw = () => {
 
     const getUser = () => {
         const userData = localStorage.getItem('userInfo')
+        console.log('userData', userData)
         const parseData = JSON.parse(userData)
+        console.log('parse data', parseData)
         return parseData
     }
 
     const getBalance = async () => {
         const email = getUser()['email']
         const data = await axios('/api/users/currentbalance', {params: {email: email}})
-        console.log(data)
+        console.log('data', data)
         //Set user balance with data
         setUserBalance(data.data['balance'])
     }
